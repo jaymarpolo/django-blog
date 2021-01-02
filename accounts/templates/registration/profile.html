@@ -1,0 +1,28 @@
+{% extends 'post/main.html' %} {% block content %}
+{% load static %}
+<h1 class="display-4">Profile</h1>
+<div class="card mb-3">
+  <div class="row no-gutters">
+    <div class="col-md-4">
+    {% if profile.pic %}
+      <img src="{{ profile.pic.url }}" alt="profile-pic" class="rounded-circle mt-5 ml-5">
+    {% else %}
+      <img src="{% static 'post/images/default-avatar.png' %}" alt="default-profile-pic" class="rounded-circle"
+        style="width: 200px;
+        height: 200px;
+        border-radius: 50%;">
+    {% endif %}
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <a class="float-right" href="{% url 'edit-info' user.profile.id %}">Edit Profile</a>
+        <h5 class="card-title">{{ profile.user.first_name }} {{ profile.user.last_name }}</h5>
+        <p class="card-text">{{ profile.bio }}</p>
+        {% if profile.link %}
+        <p class="card-text"><small class="text-muted">Click my <a href="{{ profile.link }}">Social Media</a></small></p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

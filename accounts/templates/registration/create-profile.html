@@ -1,0 +1,10 @@
+{% extends 'post/main.html' %} {% block content %}
+{% if user.is_authenticated %}
+<h1>Edit Profile</h1>
+<br><br>
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %} {{ form.as_p }}
+  <input type="submit">
+</form>
+{% endif %}
+{% endblock %}
