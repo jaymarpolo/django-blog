@@ -1,0 +1,13 @@
+{% extends 'post/main.html' %} {% block content %}
+<h1 class="display-4">{{ cat }}</h1>
+{% for post in categories %}
+<a href="{% url 'post:detail' post.id %}">{{ post.title }}</a><br>
+  <small>{{ post.body|slice:':50' }}...</small>
+  <small>by {{ post.author.first_name }} {{ post.author.last_name }} - {{ post.date }}</small><br>
+  {% if user.is_authenticated %}
+    {% if user.id == post.author.id %}
+    <a href="{% url 'post:update' post.id %}">Update</a> <a href="{% url 'post:delete' post.id %}">Delete</a><br>
+    {% endif %}
+  {% endif %}
+{% endfor %}
+{% endblock %}

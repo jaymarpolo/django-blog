@@ -1,0 +1,13 @@
+{% extends 'post/main.html' %} {% block content %}
+{% if user.is_authenticated %}
+<h1>Add Comment</h1>
+<div class="form-group">
+  <form method="post">
+    {% csrf_token %} {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Comment</button>
+  </form>
+</div>
+{% else %}
+<p>You are not authorized to view this page.</p>
+{% endif %}
+{% endblock %}

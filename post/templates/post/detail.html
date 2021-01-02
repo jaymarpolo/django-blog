@@ -1,0 +1,52 @@
+{% extends 'post/main.html' %} {% block content %} {% load static %}
+<h1 class="display-4">{{ post.title }}</h1>
+{% if post.header_image %}
+<img src="{{ post.header_image.url }}" alt="Image Header">
+{% endif %}
+<p class="lead">{{ post.body|safe }}</p><hr>
+like: {{ total_likes }}
+{% if user.is_authenticated %}
+<form action="{% url 'post:likes' post.pk %}" method="post"> {% csrf_token %}
+    {% if liked %}
+    <button type="submit" class="btn btn-danger" name="post_id" value="{{ post.id }}">Unlike</button>
+    {% else %}
+    <button type="submit" class="btn btn-primary" name="post_id" value="{{ post.id }}">Like</button>
+    {% endif %}
+</form><hr>
+{% endif %}
+<h4>Comments:</h4>
+{% if not post.comments.all %}
+  <p>No comments yet...</p>
+{% else %}
+  {% for comment in post.comments.all %}
+    {{ comment.body }} <br>
+    <small>{{ comment.name }} by {{ comment.date }}</small><hr>
+  {% endfor %}
+{% endif %}
+<a href="{% url 'post:comment' post.pk %}">Add comment</a>
+<div class="card mb-3 mt-5">
+  <div class="row no-gutters">
+    <div class="col-md-4">
+    {% if post.author.profile.pic %}
+      <img src="{{ post.author.profile.pic.url }}" alt="profile-pic" class="rounded-circle mt-5 ml-5">
+    {% else %}
+      <img src="{% static 'post/images/default-avatar.png' %}" alt="default-profile-pic" class="rounded-circle"
+        style="width: 200px;
+        height: 200px;
+        border-radius: 50%;">
+    {% endif %}
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+      <a href="{% url 'profile' post.author.profile.id %}">
+        <h5 class="card-title">By: {{ post.author.first_name }} {{ post.author.last_name }}</h5>
+      </a>
+        <p class="card-text">{{ post.author.profile.bio }}</p>
+        {% if post.author.profile.link %}
+        <p class="card-text"><small class="text-muted">Click my <a href="{{ post.author.profile.link }}">Social Media</a></small></p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

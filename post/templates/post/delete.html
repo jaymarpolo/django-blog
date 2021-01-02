@@ -1,0 +1,17 @@
+{% extends 'post/main.html' %} {% block content %}
+{% if user.is_authenticated %}
+  {% if user.id == post.author.id %}
+  <h1>{{ post.title }}</h1>
+  <div class="form-group">
+    <form method="post">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-danger">Delete</button>
+    </form>
+  </div>
+  {% else %}
+  <p>You are not authorized to view this page.</p>
+  {% endif %}
+{% else %}
+<p>You are not authorized to view this page.</p>
+{% endif %}
+{% endblock %}

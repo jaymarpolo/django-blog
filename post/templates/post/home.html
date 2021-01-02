@@ -1,0 +1,28 @@
+{% extends 'post/main.html' %}
+{% block content %}
+{% if user.is_authenticated %}
+{% if messages %}
+    {% for message in messages %}
+    <p class="text-success">{{ message }}!<br></p>
+    {% endfor %}
+{% endif %}
+<a href="{% url 'post:create' %}">Add Post</a>
+<a href="{% url 'post:add-category' %}">Add Category</a><br>
+{% endif %}
+{% if object_list %}
+{% for post in object_list %}
+  <h4><a href="{% url 'post:detail' post.id %}">{{ post.title }}</a></h4>
+  <small>{{ post.body|slice:':50'|safe }}</small>
+  <small>by {{ post.author.first_name }} {{ post.author.last_name }} - {{ post.date }}</small><br>
+  <a href="{% url 'post:category' post.category %}"><small>{{ post.category }}</small></a>
+  {% if user.is_authenticated %}
+    {% if user.id == post.author.id %}
+    <a href="{% url 'post:update' post.id %}">Update</a> <a href="{% url 'post:delete' post.id %}">Delete</a>
+    {% endif %}
+  {% endif %}
+  <hr>
+{% endfor %}
+{% else %}
+<p>No posts are available.</p>
+{% endif %}
+{% endblock %}

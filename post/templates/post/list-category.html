@@ -1,0 +1,7 @@
+{% extends 'post/main.html' %}
+{% block content %}
+<h1>Categories</h1>
+{% for item in cat_menu %}
+<h4><a href="{% url 'post:category' item %}">{{ item }}</a></h4>
+{% endfor %}
+{% endblock %}
